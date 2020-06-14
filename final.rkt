@@ -18,7 +18,7 @@
 #\k #\l #\m #\n #\o #\p #\q #\r #\s #\t 
 #\u #\v #\w #\x #\y #\z #\0 #\1 #\2 #\3 
 #\4 #\5 #\6 #\7 #\8 #\9 #\. #\? #\, #\- 
-#\  #\! #\_ #\@ #\$ #\% #\'))
+#\  #\! #\_ #\@ #\$ #\' #\%))
 
 (define (decipher-document input-path output-path n key)
 	(define content (file->lines input-path))
@@ -476,7 +476,7 @@
 	)
 )
 
-;Converts a plaintext word into matrix form
+;Converts an array of word (in numbers) into matrix form
 (define (word-to-matrix word n)
 	(let loop
 		([word word]
@@ -494,7 +494,7 @@
 				(if (< count n)
 					(if (false? (empty? word))
 						(loop2 (cdr word) n (+ count 1) (append sub (list (car word))))
-						(loop2 word n (+ count 1) (append sub '(45)))
+						(loop2 word n (+ count 1) (append sub '(40)))
 					)
 					(loop word n (append result (list sub)))
 				)
