@@ -1,41 +1,52 @@
 #|
-    Assignment 05: More recursion
-    Program that works with lists to compute binary numbers, reverse and rotate lists.
 
-    Samantha Barco Mejia A01196844
-    17/04/2020
+    Samantha Barco Mejia   A01196844
+    Emilio Hernández Lopez A013364189
+    16/06/2020
+
+    
+
+    Final Project Hill Cipher
 |#
 
-; notas: 
-; Llave y n fuera del documento p/ambos LONG ALPH
 ; Eliminar sobra de caracteres 
-; NO Globales
 
 #lang racket
 
-(define alphabet '(#\a #\b #\c #\d #\e #\f #\g #\h #\i #\j #\k #\l #\m #\n #\o #\p #\q #\r #\s #\t #\u #\v #\w #\x #\y #\z #\0 #\1 #\2 #\3 #\4 #\5 #\6 #\7 #\8 #\9 #\.  #\?  #\,  #\-  #\_))
+(define alphabet '(
+#\a #\b #\c #\d #\e #\f #\g #\h #\i #\j 
+#\k #\l #\m #\n #\o #\p #\q #\r #\s #\t 
+#\u #\v #\w #\x #\y #\z #\0 #\1 #\2 #\3 
+#\4 #\5 #\6 #\7 #\8 #\9 #\. #\? #\, #\- 
+#\  #\! #\_ #\@ #\$ #\% #\'))
 
-(define (decipher-document input-path output-path)
-	; DUDA Define
-	; DUDA global key n
+(define (decipher-document input-path output-path n key)
 	(define content (file->lines input-path))
-	(define n (string->number (car content)))
-	(define key (cadr content))
 
+	; Document was empty
 	(if (empty? content)
-		(list->file '("Invalid document") output-path) ; Document was empty
+		(list->file '("Invalid document") output-path) 
+
+		;Matrix size is not valid
 		(if (or (false? n) (equal? 0 n))
-			(list->file '("Invalid n size") output-path) ; Document was empty
+			(list->file '("Invalid n size") output-path) 
+
+			;Key is empty			
 			(if (equal? key "")
 				(list->file '("Invalid key") output-path)
+
+				;Invalid key- determinant 0
 				(if (equal? (determinant (set-key key n) n) 0)
-					(list->file '("Invalid key") output-path)
+					(list->file '("Invalid key: Determinant 0") output-path)
+
+					;Deciphers document
 					(let loop
-						([to-cipher (cddr content)]
+						([to-cipher content]
 						[result null]
 						)
+
 						(if (empty? to-cipher)
-							(list->file (append (list (number->string n)) (append (list key) result)) output-path)
+							(list->file result output-path)
 							(loop (cdr to-cipher) (append result (list (decipher (car to-cipher) key n))))
 						)
 					)
@@ -45,28 +56,33 @@
 	)
 )
 
-(define (cipher-document input-path output-path)
-	; DUDA Define
-	; DUDA Catch error on empty doc
-	; DUDA ELIMINAR LAS Xs del final
+;Ciphers a given text document, given a path to the document
+(define (cipher-document input-path output-path n key)
 	(define content (file->lines input-path))
-	(define n (string->number (car content)))
-	(define key (cadr content))
 
+	; Document was empty
 	(if (empty? content)
-		(list->file '("Invalid document") output-path) ; Document was empty
+		(list->file '("Invalid document") output-path) 
+
+		;Matrix size is not valid
 		(if (or (false? n) (equal? 0 n))
-			(list->file '("Invalid n size") output-path) ; Document was empty
+			(list->file '("Invalid n size") output-path) 
+
+			;Key is empty
 			(if (equal? key "")
 				(list->file '("Invalid key") output-path)
+
+				;Invalid key- determinant 0
 				(if (equal? (determinant (set-key key n) n) 0)
-					(list->file '("Invalid key") output-path)
+					(list->file '("Invalid key: Determinant 0") output-path)
+
+					;Ciphers document
 					(let loop
-						([to-cipher (cddr content)]
+						([to-cipher content]
 						[result null]
 						)
 						(if (empty? to-cipher)
-							(list->file (append (list (number->string n)) (append (list key) result)) output-path)
+							(list->file result output-path)
 							(loop (cdr to-cipher) (append result (list (cipher (car to-cipher) key n))))
 						)
 					)
@@ -76,8 +92,8 @@
 	)
 )
 
+;Function to decipher word
 (define (decipher word key n)
-	; DUDA define bien planteado
 	(define matrix-key (set-key key n))
 	(define det (modulo (determinant matrix-key n) (length alphabet)))
 	(if (equal? 0 det)
@@ -86,10 +102,12 @@
 	)
 )
 
+;Transforms encrypting key to decrypting key
 (define (get-decrypt-key matrix n det-inv)
 	(matrix-modulo (multiply-matrix-element (matrix-modulo (get-adjugate (cofactor matrix n) n)) det-inv))
 )
 
+;Returns adjugate matrix from a given matrix
 (define (get-adjugate matrix n)
 	(let loopRows
 		([indexRow 0]
@@ -115,6 +133,7 @@
 	)
 )
 
+;Gets an n,m element from a matrix
 (define (get-matrix-element matrix row column)
 	(let loopRows
 		([indexRow 0]
@@ -132,6 +151,7 @@
 	)
 )
 
+;Returns cofactor from a matrix
 (define (cofactor matrix n)
 	(let loopRows
 		([matrix matrix]
@@ -170,7 +190,7 @@
 	)
 )
 
-
+;Returns an inverse from a determinant
 (define (determinant-inverse determinant)
 	(let loop
 		([base determinant]
@@ -187,7 +207,10 @@
 	)
 )
 
+;Returns the determinant from a matrix
 (define (determinant matrix n)	
+	
+	;creates sub matrices to get determinant
 	(define sub-matrices 
 		(let outerLoop
 			([arrays (cdr matrix)]
@@ -196,7 +219,7 @@
 			)
 			(if (equal? outerIndex n) 
 				outerResult; Limit has been reached must stop
-				(let innerLoop ; loop para armar sub arreglos
+				(let innerLoop 
 					([arrays arrays]
 					[innerArrays arrays]
 					[innerIndex outerIndex]
@@ -213,6 +236,8 @@
 	
 	(if (equal? n 1)
 		(caar matrix)
+
+		;Multiplies sub matrices to get determinant
 		(let loop
 			([length n]
 			[length-multiplier (length (car sub-matrices))]
@@ -233,7 +258,7 @@
 	)
 )
 
-
+;Deletes a column n from a matrix
 (define (delete-column matrix n)
 	(let loop
 		([matrix matrix]
@@ -260,6 +285,7 @@
 	)
 )
 
+;Deletes a row n from a matrix
 (define (delete-row array n)
 	(let loop
 		([index 0]
@@ -278,6 +304,7 @@
 	)
 )
 
+;Returns a list element given the index
 (define (get-list-element list n)
 	(let loop
 		([index 0]
@@ -294,6 +321,7 @@
 	)
 )
 
+;Ciphers a word using matrices
 (define (cipher word key n)
 	(if (equal? 0 (modulo (determinant (set-key key n) n) (length alphabet)))
 		0
@@ -301,6 +329,7 @@
 	)
 )
 
+;Builds a word from list of numbers
 (define (number-to-word m)
 	(let loop
 		([original m]
@@ -313,8 +342,8 @@
 	)
 )
 
-(define (join-matrix m)
-	(let loop
+;Converts a matrix into a list joining every row
+(define (join-matrix m)	(let loop
 		([original m]
 		[result null]
 		)
@@ -325,6 +354,7 @@
 	)
 )
 
+;Obtains the module of a matrix
 (define (matrix-modulo m)
 	(let loop
 		([outerList m]
@@ -346,14 +376,17 @@
 	)
 )
 
+;Prepares a key to cipher words
 (define (set-key key n)
-	(key-to-matrix3 (word-to-number key) n)
+	(key-to-matrix (word-to-number key) n)
 )
 
+;Prepares a word to be ciphered
 (define (set-word word n)
-	(word-to-matrix2 (word-to-number word) n)
+	(word-to-matrix (word-to-number word) n)
 )
 
+;Receives a word and returns a list of numbers, based on alphabet array
 (define (word-to-number word)
 	(let loop
 		([word (string->list word)]
@@ -368,6 +401,7 @@
 	)
 )
 
+;Returns the value of a letter from a position
 (define (get-letter number)
 	(let loop
 		([count 0]
@@ -381,6 +415,7 @@
 	)
 )
 
+;Returns a position from a letter on alphabet array
 (define (get-number letter)
 	(let loop
 		([count 0]
@@ -394,16 +429,21 @@
 	)
 )
 
-(define (key-to-matrix3 word n)
+;Converts a key to matrix form
+(define (key-to-matrix word n)
+
+	;Goes through the word
 	(let loop
 		([word word]
 		[count 0]
 		[n n]
 		[result null]
 		)
-		(if (< count n) ; loop para renglones
+		(if (< count n) 
 			(if (empty? word)
-				(let loop3
+
+				;Creates rows
+				(let loopR
 					(
 					[n n]
 					[countIn 0]
@@ -411,7 +451,7 @@
 					[sub null]
 					)
 					(if (< countIn n)
-						(loop3 n (+ countIn 1) countOut (append sub '(23)))
+						(loopR n (+ countIn 1) countOut (append sub '(23)))
 						(loop word (+ countOut 1) n (append result (list sub)))
 					)
 				)
@@ -436,49 +476,8 @@
 	)
 )
 
-(define (key-to-matrix word n)
-	(let loop
-		([word word]
-		[count 0]
-		[n n]
-		[result null]
-		)
-		(if (< count n) ; loop para renglones
-			(if (string=? word "")
-				(let loop3
-					(
-					[n n]
-					[countIn 0]
-					[countOut count]
-					[sub null]
-					)
-					(if (< countIn n)
-						(loop3 n (+ countIn 1) countOut (append sub '(23)))
-						(loop word (+ countOut 1) n (append result (list sub)))
-					)
-				)
-				(let loop2
-					([word word]
-					[n n]
-					[countIn 0]
-					[countOut count]
-					[sub null]
-					)
-					(if (< countIn n)
-						(if (false? (string=? word ""))
-							(loop2 (substring word 1) n (+ countIn 1) countOut (append sub (list (substring word 0 1))))
-							(loop2 word n (+ countIn 1) countOut (append sub '(23)))
-						)
-						(loop word (+ countOut 1) n (append result (list sub)))
-					)
-				)
-			)
-			(display result)
-		)
-	)
-)
-
-(define (word-to-matrix2 word n)
+;Converts a plaintext word into matrix form
+(define (word-to-matrix word n)
 	(let loop
 		([word word]
 		[n n]
@@ -495,7 +494,7 @@
 				(if (< count n)
 					(if (false? (empty? word))
 						(loop2 (cdr word) n (+ count 1) (append sub (list (car word))))
-						(loop2 word n (+ count 1) (append sub '(23)))
+						(loop2 word n (+ count 1) (append sub '(45)))
 					)
 					(loop word n (append result (list sub)))
 				)
@@ -504,46 +503,28 @@
 	)
 )
 
-(define (word-to-matrix word n)
-	(let loop
-		([word word]
-		[n n]
-		[result null]
-		)
-		(if (string=? word "")
-			(display result)
-			(let loop2
-				([word word]
-				[n n]
-				[count 0]
-				[sub null]
-				)
-				(if (< count n)
-					(if (false? (string=? word ""))
-						(loop2 (substring word 1) n (+ count 1) (append sub (list (substring word 0 1))))
-						(loop2 word n (+ count 1) (append sub '(x)))
-					)
-					(loop word n (append result (list sub)))
-				)
-			)
-		)
-	)
-)
+;multiplies two matrices
+(define (multiply-matrices m1 m2) 
 
-(define (multiply-matrices m1 m2) ; m1 is key m2 is word
+	; m1 is key to cipher m2 is a word in its matrix form
 	(let loop
 		([m1 m1]
 		[m2 m2]
 		[res '()]
 		)
 		(if (empty? m2)
-			res ; If the lists are empty, returns the result
-			(loop m1 (cdr m2) (append res (list (multiply-matrix-list m1 (car m2))))) ; If the lists aren't empty increases the multiplication
+			; If the lists are empty, returns the result
+			res 
+
+			; If the lists aren't empty increases the multiplication
+			(loop m1 (cdr m2) (append res (list (multiply-matrix-list m1 (car m2))))) 
 		)
 	)
 )
 
+;Multiplies matrix by list
 (define (multiply-matrix-list m1 l1)
+
 	; Lists have same lenth
 	(let loop
 		([m1 m1]
@@ -551,30 +532,41 @@
 		[res '()]
 		)
 		(if (empty? m1)
-			res ; If the lists are empty, returns the result
-			(loop (cdr m1) l1 (append res (list (multiply-lists (car m1) l1)))) ; If the lists aren't empty increases the multiplication
+
+			; If the lists are empty, returns the result
+			res 
+
+			; If the lists aren't empty increases the multiplication
+			(loop (cdr m1) l1 (append res (list (multiply-lists (car m1) l1)))) 
 		)
 	)
 )
 
+;Mulitplies two lists
 (define (multiply-lists l1 l2)
 	(if (equal? (length l1) (length l2))
-		; Lists have same lenth
+
+		; If lists have the same length, multiplies
 		(let loop
 			([l1 l1]
 			[l2 l2]
 			[res 0]
 			)
 			(if (empty? l1)
-				res ; If the lists are empty, returns the result
-				(loop (cdr l1) (cdr l2) (+ res (* (car l1) (car l2)))) ; If the lists aren't empty increases the multiplication
+				; If the lists are empty, returns the result
+				res 
+
+				; If the lists aren't empty increases the multiplication 
+				(loop (cdr l1) (cdr l2) (+ res (* (car l1) (car l2)))) 
 			)
 		)
-		; Lists don't have same length
+
+		; If lists don't have same length returns -1
 		(- 0 1)		
 	)
 )
 
+;Multiplies all matrix elements by a constant multiplier
 (define (multiply-matrix-element matrix multiplier)
 	(let loopRows
 		([matrix matrix]
@@ -597,9 +589,13 @@
 	)
 )
 
-; https://stackoverflow.com/questions/30729513/write-list-to-file-using-display-lines-to-file
+;List to file function
+;src: https://stackoverflow.com/questions/30729513/write-list-to-file-using-display-lines-to-file 
 (define (list->file lst file)
   (display-lines-to-file lst
                          file
                          #:exists 'replace
                          #:mode 'text))
+
+
+
