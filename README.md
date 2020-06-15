@@ -15,10 +15,12 @@ racket
 
 ## Usage
 
-### Cipher Document
 Inside the racket prompt
 ```racket
 >(enter! "final.rkt")
+
+### Cipher Document
+
 ```
 To cipher a document run: 
 ```racket
