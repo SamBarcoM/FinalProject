@@ -19,9 +19,9 @@ Inside the racket prompt
 ```racket
 >(enter! "final.rkt")
 
-### Cipher Document
-
 ```
+
+### Cipher Document
 To cipher a document run: 
 ```racket
 >(cipher-document <"plainText.txt"> <"outputFile.txt"> <n> <"key">)
