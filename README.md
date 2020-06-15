@@ -18,9 +18,8 @@ racket
 Inside the racket prompt
 ```racket
 >(enter! "final.rkt")
+
 ```
-
-
 
 ### Cipher Document
 To cipher a document run: 
@@ -40,10 +39,7 @@ To decipher a document run:
 eg
 ```racket
 >(decipher-document "c_mails.txt" "mails.txt" 2 "hill")
-``` 
-Recomended n : key pairs:
-2 : "hill"
-3 : "emilio"
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
