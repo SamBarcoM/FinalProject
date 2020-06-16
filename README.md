@@ -24,7 +24,7 @@ Inside the racket prompt
 ### Cipher Document
 To cipher a document run: 
 ```racket
->(cipher-document <"plainText.txt"> <"outputFile.txt"> <n> <"key">)
+>(cipher-document "<plainText.txt>" "<outputFile.txt>" <n> "<key>")
 ```
 eg
 ```racket
@@ -34,7 +34,7 @@ eg
 ### Decipher Document
 To decipher a document run: 
 ```racket
->(cipher-document <"cipheredText.txt"> <"outputFile.txt"> <n> <"key">)
+>(decipher-document "<cipheredText.txt>" "<outputFile.txt>" <n> "<key>")
 ```
 eg
 ```racket
