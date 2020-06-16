@@ -1,7 +1,7 @@
 #|
 
     Samantha Barco Mejia   A01196844
-    Emilio Hernández Lopez A013364189
+    Emilio Hernandez Lopez A013364189
     16/06/2020
 
     
@@ -18,10 +18,11 @@
 #\k #\l #\m #\n #\o #\p #\q #\r #\s #\t 
 #\u #\v #\w #\x #\y #\z #\0 #\1 #\2 #\3 
 #\4 #\5 #\6 #\7 #\8 #\9 #\. #\? #\, #\- 
-#\  #\! #\_ #\@ #\$ #\% #\' #\A #\B #\C
+#\  #\! #\_ #\@ #\$ #\" #\' #\A #\B #\C
 #\D #\E #\F #\G #\H #\I #\J #\K #\L #\M
 #\N #\O #\P #\Q #\R #\S #\T #\U #\V #\W
-#\X #\Y #\Z))
+#\X #\Y #\Z #\/ #\= #\; #\( #\: #\) #\# 
+#\\ #\+ #\* #\| #\< #\> #\[ #\] #\% ))
 
 
 (define (decipher-document input-path output-path n key)
@@ -182,7 +183,7 @@
 		(list->file '("Invalid document") output-path) 
 
 		;Matrix size is not valid
-		(if (or (false? n) (equal? 0 n))
+		(if (or (false? n) (< n 1))
 			(list->file '("Invalid n size") output-path) 
 
 			;Key is empty			
@@ -228,17 +229,16 @@
 		(list->file '("Invalid document") output-path) 
 
 		;Matrix size is not valid
-		(if (or (false? n) (equal? 0 n))
+		(if (or (false? n) (< n 1))
 			(list->file '("Invalid n size") output-path) 
 
 			;Key is empty
 			(if (equal? key "")
-				(list->file '("Invalid key") output-path)
+				(error-display "Error key: Empty key" output-path)
 
 				;Invalid key- determinant 0
 				(if (equal? (determinant (set-key key n) n) 0)
-					(list->file '("Invalid key: Determinant 0") output-path)
-
+					(error-display "Error Determinant: Determinant 0" output-path)
 					;Ciphers document
 					(let loop
 						([to-cipher content]
@@ -253,6 +253,12 @@
 			)
 		)
 	)
+)
+
+(define (error-display error-msg output-path)
+	(display error-msg )
+	(display "\n")
+	(list->file (list error-msg) output-path)
 )
 
 ;Gets an n,m element from a matrix
@@ -594,7 +600,6 @@
 )
 
 ;List to file function
-;src: https://stackoverflow.com/questions/30729513/write-list-to-file-using-display-lines-to-file 
 (define (list->file lst file)
   (display-lines-to-file lst
                          file
