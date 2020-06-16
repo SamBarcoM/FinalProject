@@ -6,11 +6,11 @@
 (cipher-document "mail.txt" "c_mail.txt" 7 "This is our master key and idgad bla purple color toyota")
 (decipher-document "c_mail.txt" "d_c_mail.txt" 7 "This is our master key and idgad bla purple color toyota")
 
-(cipher-document "mail.txt" "c_mail.txt" 7 "Emilios favourite color is orange, this is his final project")
-(decipher-document "c_mail.txt" "d_c_mail.txt" 7 "Emilios favourite color is orange, this is his final project")
+(cipher-document "naranja.txt" "c_naranja.txt" 7 "Emilios favourite color is orange, this is our final project")
+(decipher-document "c_naranja.txt" "d_c_naranja.txt" 7 "Emilios favourite color is orange, this is our final project")
 
-(cipher-document "naranja.txt" "c_naranja.txt" 2 "hill")
-(decipher-document "c_naranja.txt" "d_c_naranja.txt" 2 "hill")
+(cipher-document "potter.txt" "c_potter.txt" 7 "Samanthas favourite book is harry potter, this is our final project")
+(cipher-document "c_potter.txt" "d_c_naranja.txt" 2 "Samanthas favourite book is harry potter, this is our final project")
 
 
 //_____________invaled key: Det 0_____________//
