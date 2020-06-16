@@ -43,7 +43,7 @@ eg
 
 ## Examples
 
-The file pruebas.txt contains all our test cases, using the provided clear text files in the project. 
+The file pruebas.txt contains all our test cases, using the provided clear text files in the project. The file 
 c_mail was ciphered with n = 7 and key "This is our master key and idgad bla purple color toyota".
 
 ## Contributing
