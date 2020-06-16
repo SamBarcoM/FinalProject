@@ -41,6 +41,10 @@ eg
 >(decipher-document "c_mails.txt" "mails.txt" 2 "hill")
 ```
 
+## Examples
+
+c_mail was ciphered with n = 7 and key "This is our master key and idgad bla purple color toyota"
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
