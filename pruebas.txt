@@ -1,0 +1,31 @@
+
+//_____________ Working _____________ \\
+(cipher-document "lyrics.txt" "c_lyrics.txt" 5 "bohemian rhapsody")
+(decipher-document "c_lyrics.txt" "d_c_lyrics.txt" 5 "bohemian rhapsody")
+
+(cipher-document "mail.txt" "c_mail.txt" 7 "This is our master key and idgad bla purple color toyota")
+(decipher-document "c_mail.txt" "d_c_mail.txt" 7 "This is our master key and idgad bla purple color toyota")
+
+(cipher-document "mail.txt" "c_mail.txt" 7 "Emilios favourite color is orange, this is his final project")
+(decipher-document "c_mail.txt" "d_c_mail.txt" 7 "Emilios favourite color is orange, this is his final project")
+
+(cipher-document "naranja.txt" "c_naranja.txt" 2 "hill")
+(decipher-document "c_naranja.txt" "d_c_naranja.txt" 2 "hill")
+
+
+//_____________invaled key: Det 0_____________//
+(cipher-document "mail.txt" "c_mail.txt" 5 "emilio")
+(decipher-document "c_mail.txt" "d_c_mail.txt" 5 "emilio")
+
+
+//_____________invalid: negative n_____________//
+(cipher-document "mail.txt" "c_mail.txt" -5 "bohemian rhapsody")
+(decipher-document "c_mail.txt" "d_c_mail.txt" -5 "bohemian rhapsody")
+
+//_____________invalid: empty key_____________//
+(cipher-document "mail.txt" "c_mail.txt" 5 "")
+(decipher-document "c_mail.txt" "d_c_mail.txt" 5 "")
+
+//_____________invalid: empty doc_____________//
+(cipher-document "empty.txt" "c_empty.txt" 5 "this not an empty key")
+(decipher-document "empty.txt" "d_c_empty.txt" 5 "this not an empty key")

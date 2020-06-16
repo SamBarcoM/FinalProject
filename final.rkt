@@ -148,7 +148,8 @@
 				)
 			)
 
-			(matrix-modulo (multiply-matrix-element (matrix-modulo (get-adjugate (cofactor matrix n) n)) det-inv))
+			(matrix-modulo (multiply-matrix-element (matrix-modulo (get-adjugate (cofactor matrix n) n)) det-inv)
+			)
 		)
 
 		;Returns an inverse from a determinant
@@ -179,19 +180,19 @@
 
 	; Document was empty
 	(if (empty? content)
-		(list->file '("Invalid document") output-path) 
+		(error-display "Error document: empty document" output-path) 
 
 		;Matrix size is not valid
 		(if (or (false? n) (< n 1))
-			(list->file '("Invalid n size") output-path) 
+			(error-display "Error n: n size needs to be positive" output-path) 
 
 			;Key is empty			
 			(if (equal? key "")
-				(list->file '("Invalid key") output-path)
+				(error-display "Error key: Empty key" output-path)
 
 				;Invalid key- determinant 0
 				(if (equal? (determinant (set-key key n) n) 0)
-					(list->file '("Invalid key: Determinant 0") output-path)
+					(error-display "Error Determinant: Determinant 0" output-path)
 
 					;Deciphers document
 					(let loop
@@ -225,11 +226,11 @@
 
 	; Document was empty
 	(if (empty? content)
-		(list->file '("Invalid document") output-path) 
+		(error-display "Error document: empty document" output-path) 
 
 		;Matrix size is not valid
 		(if (or (false? n) (< n 1))
-			(list->file '("Invalid n size") output-path) 
+			(error-display "Error n: n size needs to be positive" output-path) 
 
 			;Key is empty
 			(if (equal? key "")
@@ -238,6 +239,7 @@
 				;Invalid key- determinant 0
 				(if (equal? (determinant (set-key key n) n) 0)
 					(error-display "Error Determinant: Determinant 0" output-path)
+
 					;Ciphers document
 					(let loop
 						([to-cipher content]
@@ -254,6 +256,7 @@
 	)
 )
 
+;Error display and document print function
 (define (error-display error-msg output-path)
 	(display error-msg )
 	(display "\n")
