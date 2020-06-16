@@ -10,7 +10,7 @@
 (decipher-document "c_naranja.txt" "d_c_naranja.txt" 7 "Emilios favourite color is orange, this is our final project")
 
 (cipher-document "potter.txt" "c_potter.txt" 7 "Samanthas favourite book is harry potter, this is our final project")
-(cipher-document "c_potter.txt" "d_c_naranja.txt" 2 "Samanthas favourite book is harry potter, this is our final project")
+(decipher-document "c_potter.txt" "d_c_potter.txt" 7 "Samanthas favourite book is harry potter, this is our final project")
 
 
 //_____________invaled key: Det 0_____________//
