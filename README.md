@@ -38,7 +38,7 @@ To decipher a document run:
 ```
 eg
 ```racket
->(decipher-document "c_mails.txt" "mails.txt" 2 "hill")
+>(decipher-document "c_mails.txt" "d_c_mails.txt" 2 "hill")
 ```
 
 ## Examples
